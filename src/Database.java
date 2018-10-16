@@ -193,7 +193,7 @@ public class Database {
 			try {
 				int did = iterator.next();
 				double ave = getAverageSalary(did);
-				if (highest < ave || (highest == ave && current < did)) {
+				if (highest < ave || (highest == ave && current > did)) {
 					current = did;
 					highest = ave;
 				}

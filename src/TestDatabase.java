@@ -70,18 +70,8 @@ public class TestDatabase {
 
 	@Test
 	public void test_addEmployee_normal() {
-		try {
-			db.addEmployee("e1", new EmployeeInfo("Heeyeon"	, 100, 1));
-			db.addEmployee("e2", new EmployeeInfo("Jiyoon"	, 500, 2));
-			db.addEmployee("e3", new EmployeeInfo("Jaebin"	, 700, 3));
-			db.addEmployee("e4", new EmployeeInfo("Suyeon"	, 700, 2));
-			db.addEmployee("e5", new EmployeeInfo("Yuna"	, 500, 1));
-			db.addEmployee("e6", new EmployeeInfo("Sunhye"	, 600, 3));
-			db.addEmployee("e7", new EmployeeInfo("Jihye"	, 700, 1));
-		} catch (IdAlreadyExistsExceptoin e) {
-			// exception not expected
-			fail();
-		} 
+		addEmployees();
+
 		assertEquals(7, db.employees.size());
 		assertEquals(new EmployeeInfo("Heeyeon"	, 100, 1), db.employees.get("e1"));
 		assertEquals(new EmployeeInfo("Jiyoon"	, 500, 2), db.employees.get("e2"));
@@ -419,4 +409,23 @@ public class TestDatabase {
 			new DepartmentInfo("RESEARCH", "London"), 
 			db.getDepartmentOfHighestAverageSalary());
 	}
+
+	@Test
+	public void test_getDepartmentOfHighestAverageSalary_closed() {
+	    addDepartments();
+        try {
+            db.addEmployee("e1", new EmployeeInfo("Heeyeon"	, 100, 1));
+            db.addEmployee("e2", new EmployeeInfo("Jiyoon"	, 100, 2));
+            db.addEmployee("e3", new EmployeeInfo("Jaebin"	, 100, 3));
+            db.addEmployee("e4", new EmployeeInfo("Suyeon"	, 300, 2));
+            db.addEmployee("e5", new EmployeeInfo("Yuna"	, 300, 1));
+            db.addEmployee("e6", new EmployeeInfo("Sunhye"	, 300, 3));
+            db.addEmployee("e7", new EmployeeInfo("Jihye"	, 100, 1));
+        } catch (IdAlreadyExistsExceptoin idAlreadyExistsExceptoin) {
+            idAlreadyExistsExceptoin.printStackTrace();
+            fail();
+        }
+
+        assertTrue(new DepartmentInfo("IT"			, "Seoul").equals(db.getDepartmentOfHighestAverageSalary()));
+    }
 }
